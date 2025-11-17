@@ -1,0 +1,93 @@
+#include<stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct
+{
+char Name[20];
+int Reg_no;
+float marks[3];
+float average_marks;
+} Student;
+void Read(Student *, int);
+void Display(Student *, int);
+void Average(Student *, int);
+void Menu();
+int main()
+{
+Student *students = NULL;
+int n = 0, choice;
+while (1)
+{
+Menu();
+scanf("%d", &choice);
+switch (choice)
+{
+case 1:
+printf("\nEnter number of students: ");
+scanf("%d", &n);
+students = (Student *)malloc(n * sizeof(Student));
+if (students == NULL)
+{
+printf("Memory allocation failed.\n");
+exit(1);
+}
+Read(students, n);
+break;
+case 2: Display(students, n);
+break;
+case 3: Average(students, n);
+break;
+case 4:
+printf("\nExiting program.\n");
+free(students);
+exit(0);
+default: printf("\nInvalid choice. Please try again.\n");
+}
+}
+return 0;
+}
+void Read(Student *s, int n)
+{
+for (int i = 0; i < n; i++)
+{
+printf("\nEnter details for Student %d:\n", i + 1);
+printf("Name: ");
+scanf("%s", (s + i)->Name);
+printf("Registration Number: ");
+scanf("%d", &(s + i)->Reg_no);
+printf("Enter marks for 3 tests:\n");
+for (int j = 0; j < 3; j++)
+{
+printf("Mark %d: ", j + 1);
+scanf("%f", &((s + i)->marks[j]));
+}
+(s + i)->average_marks = 0;
+}
+}
+void Display(Student *s, int n)
+{
+printf("\n%-20s %-10s %-10s %-10s %-10s %-15s\n","Name", "Reg_no", "Test1", "Test2", "Test3printf("---------------------------------------------------------------------------------\nfor (int i = 0; i < n; i++)
+printf("%-20s %-10d %-10.2f %-10.2f %-10.2f %-15.2f\n", (s + i)->Name, (s + i)->Reg_no, (s (s + i)->marks[2], (s + i)->average_marks);
+}
+void Average(Student *s, int n)
+{
+for (int i = 0; i < n; i++)
+{
+float m1 = (s + i)->marks[0];
+float m2 = (s + i)->marks[1];
+float m3 = (s + i)->marks[2];
+float min = m1;
+if (m2 < min) min = m2;
+if (m3 < min) min = m3;
+float avg = (m1 + m2 + m3 - min) / 2.0;
+(s + i)->average_marks = avg;
+}
+}
+void Menu()
+{
+printf("\n==== Student Details Menu ====\n");
+printf("1. Read student information\n");
+printf("2. Display student information\n");
+printf("3. Calculate average of best 2 test marks\n");
+printf("4. Exit\n");
+printf("Enter your choice: ")
