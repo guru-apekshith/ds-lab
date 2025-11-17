@@ -1,0 +1,94 @@
+#include <stdio.h>
+// Structure definition
+struct Time {
+int hour;
+int minute;
+int second;
+};
+// Function prototypes
+void readTime(struct Time *t);
+void displayTime(struct Time *t);
+void updateTime(struct Time *t);
+struct Time addTime(struct Time *t1, struct Time *t2);
+int main() {
+struct Time T1, T2, result;
+int choice;
+while (1) {
+printf("\n--- MENU ---\n");
+printf("1. Read Time\n");
+printf("2. Display Time\n");
+printf("3. Update Time (Increment by 1 second)\n");
+printf("4. Add Two Times\n");
+printf("5. Exit\n");
+printf("Enter your choice: ");
+scanf("%d", &choice);
+switch (choice) {
+case 1:
+readTime(&T1);
+break;
+case 2:
+displayTime(&T1);
+break;
+case 3:
+updateTime(&T1);
+printf("Time after update: ");
+displayTime(&T1);
+break;
+case 4:
+printf("\nEnter First Time:\n");
+readTime(&T1);
+printf("\nEnter Second Time:\n");
+readTime(&T2);
+result = addTime(&T1, &T2);
+printf("\nResultant Time after addition: ");
+displayTime(&result);
+break;
+case 5:
+printf("Exiting program...\n");
+return 0;
+default:
+printf("Invalid choice! Please try again.\n");
+}
+}
+return 0;
+}
+// Function to read time
+void readTime(struct Time *t) {
+printf("Enter hour (0-23): ");
+scanf("%d", &t->hour);
+printf("Enter minute (0-59): ");
+scanf("%d", &t->minute);
+printf("Enter second (0-59): ");
+scanf("%d", &t->second);
+}
+// Function to display time
+void displayTime(struct Time *t) {
+printf("%02d:%02d:%02d\n", t->hour, t->minute, t->second);
+}
+// Function to update time by one second
+void updateTime(struct Time *t)
+{
+t->second++;
+if (t->second >= 60)
+{
+t->minute += t->second / 60;
+t->second %= 60;
+}
+if (t->minute >= 60)
+{
+t->hour += t->minute / 60;
+t->minute %= 60;
+}
+if (t->hour >= 24)
+t->hour = 0;
+}
+// Function to add two times
+struct Time addTime(struct Time *t1, struct Time *t2) {
+struct Time result;
+result.second = t1->second + t2->second;
+result.minute = t1->minute + t2->minute + result.second / 60;
+result.second %= 60;
+result.hour = t1->hour + t2->hour + result.minute / 60;
+result.minute %= 60;
+result.hour %= 24;
+return result;
